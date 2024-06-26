@@ -1,7 +1,7 @@
 import Colors from "@/utils/colors";
 import { Stack } from "expo-router";
 
-export default function RootLayout() {
+export default function Layout() {
 	return (
 		<Stack
 			screenOptions={{
@@ -9,9 +9,8 @@ export default function RootLayout() {
 				contentStyle: { backgroundColor: Colors.bg },
 			}}
 		>
-			<Stack.Screen name="index" />
 			<Stack.Screen
-				name="new"
+				name="tipModal"
 				options={{
 					presentation: "modal",
 				}}

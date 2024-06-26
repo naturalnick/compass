@@ -1,5 +1,5 @@
 import BuilderItem from "@/components/BuilderItem";
-import { useCompass } from "@/services/compass";
+import { updateStatement, useCompass } from "@/services/compass";
 import Colors from "@/utils/colors";
 import {
 	AntDesign,
@@ -7,9 +7,10 @@ import {
 	Ionicons,
 	MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import { Link, router, useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
 import {
+	Alert,
 	Pressable,
 	SafeAreaView,
 	ScrollView,
@@ -25,7 +26,21 @@ export default function Compass() {
 
 	const [statement, setStatement] = useState(compass?.statement ?? "");
 
-	if (compass === null) return router.back();
+	useEffect(() => {
+		if (compass === null) {
+			router.back();
+			Alert.alert("Error retrieving Compass.");
+		}
+		if (compass?.statement) setStatement(compass.statement);
+	}, [compass]);
+
+	function saveStatement() {
+		if (compass?.statement !== statement) {
+			updateStatement(compassId as string, statement);
+		}
+
+		router.back();
+	}
 
 	return (
 		<SafeAreaView>
@@ -37,7 +52,7 @@ export default function Compass() {
 				}}
 			>
 				<Pressable
-					onPress={() => router.back()}
+					onPress={saveStatement}
 					style={{
 						minWidth: 50,
 						alignItems: "center",
@@ -120,7 +135,7 @@ export default function Compass() {
 					<BuilderItem
 						route={`/builder/prompts/${compassId}`}
 						title="Complete Prompts"
-						description="Answer thought-provoking prompts that encourange deep reflection on what truly matters to you."
+						description="Answer thought-provoking prompts that encourange deep reflection."
 						icon={
 							<AntDesign
 								name="checkcircle"
@@ -132,7 +147,7 @@ export default function Compass() {
 					<BuilderItem
 						route={`/builder/review`}
 						title="Review"
-						description="Ensure your statement truly reflects your values and goals by asking these critical questions."
+						description="Ensure your Compass truly reflects your values and goals by asking yourself these critical questions."
 						icon={<AntDesign name="eye" size={26} color="orange" />}
 					/>
 				</ScrollView>

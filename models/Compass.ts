@@ -14,8 +14,6 @@ export class Compass {
 	statement: string;
 	dateCreated: Timestamp;
 	dateUpdated: Timestamp;
-	prompts: Prompt[];
-	promptIndex: number;
 	coreValues: string[];
 	customValues: string[];
 
@@ -27,8 +25,6 @@ export class Compass {
 		statement: string,
 		dateCreated: Timestamp,
 		dateUpdated: Timestamp,
-		prompts: Prompt[],
-		promptIndex: number,
 		coreValues: string[],
 		customValues: string[]
 	) {
@@ -39,21 +35,7 @@ export class Compass {
 		this.statement = statement;
 		this.dateCreated = dateCreated;
 		this.dateUpdated = dateUpdated;
-		this.prompts = prompts;
-		this.promptIndex = promptIndex;
 		this.coreValues = coreValues;
 		this.customValues = customValues;
-	}
-}
-
-class Prompt {
-	prompt: string;
-	tips: string;
-	response?: string;
-
-	constructor(prompt: string, tips: string, response: string) {
-		this.prompt = prompt;
-		this.tips = tips;
-		this.response = response;
 	}
 }

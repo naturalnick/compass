@@ -21,3 +21,7 @@ export function formatDate(timestamp: Timestamp) {
 	});
 	return dateString;
 }
+
+export function isValidLettersOnly(input: string): boolean {
+	return /^[A-Za-z\s\-]+$/.test(input);
+}

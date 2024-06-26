@@ -4,66 +4,69 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Card } from "react-native-paper";
 
 export default function Review() {
 	return (
-		<SafeAreaView style={{ height: "100%" }}>
-			<View
-				style={{
-					flexDirection: "row",
-					alignItems: "center",
-					gap: 20,
-					padding: 15,
-				}}
-			>
-				<Pressable onPress={() => router.back()}>
-					<Ionicons name="arrow-back" size={30} color="#FFCC01" />
-				</Pressable>
-				<Text
+		<View style={{ flex: 1 }}>
+			<SafeAreaView>
+				<View
 					style={{
-						fontSize: 26,
-						fontWeight: "bold",
-						color: "white",
-						fontFamily: "Cochin",
+						flexDirection: "row",
+						alignItems: "center",
+						gap: 20,
+						padding: 15,
 					}}
 				>
-					Review
-				</Text>
-			</View>
+					<Pressable onPress={() => router.back()}>
+						<Ionicons name="arrow-back" size={30} color="#FFCC01" />
+					</Pressable>
+					<Text
+						style={{
+							fontSize: 26,
+							fontWeight: "bold",
+							color: "white",
+							fontFamily: "Cochin",
+						}}
+					>
+						Review
+					</Text>
+				</View>
+			</SafeAreaView>
 			<ScrollView style={{ padding: 15 }}>
-				<Text
-					style={{
-						paddingVertical: 12,
-						color: "white",
-						fontSize: 18,
-						letterSpacing: 0.4,
-					}}
-				>
-					Once you've written your Compass, reflect on the following
-					questions. They can aid you in ensuring your statement
-					remains fully aligned with your principles.
-				</Text>
-				<Text
-					style={{
-						paddingVertical: 12,
-						marginBottom: 15,
-						color: "white",
-						fontSize: 18,
-						letterSpacing: 0.4,
-					}}
-				>
-					Always feel free to update your Compass as needed. It will
-					evolve as you learn more about yourself and the way you want
-					to live.
-				</Text>
+				<Card style={{ padding: 15, marginBottom: 20 }}>
+					<Text
+						style={{
+							color: "black",
+							fontSize: 17,
+							letterSpacing: 0.3,
+						}}
+					>
+						Once you've written your Compass, reflect on the
+						following questions. They can aid you in ensuring your
+						statement remains fully aligned with your principles.
+					</Text>
+					<Text
+						style={{
+							paddingTop: 15,
+							color: "black",
+							fontSize: 17,
+							letterSpacing: 0.3,
+						}}
+					>
+						Always feel free to update your Compass as needed. It
+						will evolve as you learn more about yourself and the way
+						you want to live.
+					</Text>
+				</Card>
 
 				{reviewQuestions.map((text, index) => (
 					<View key={text}>
 						<Text
 							style={{
-								paddingVertical: 12,
+								paddingVertical: 10,
 								color: "white",
-								fontSize: 18,
+								fontSize: 17,
 								letterSpacing: 0.4,
 								marginBottom:
 									index === reviewQuestions.length - 1
@@ -85,6 +88,6 @@ export default function Review() {
 					</View>
 				))}
 			</ScrollView>
-		</SafeAreaView>
+		</View>
 	);
 }

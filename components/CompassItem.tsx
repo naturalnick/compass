@@ -7,6 +7,7 @@ import { Pressable, Text, View } from "react-native";
 import { Card } from "react-native-paper";
 
 export default function CompassItem({ compass }: { compass: Compass }) {
+	console.log("compassitem", compass.dateUpdated);
 	return (
 		<Link href={`/compass/${compass.id!}`} asChild>
 			<Pressable>

@@ -1,7 +1,8 @@
 import { Compass } from "@/models/Compass";
+import { Prompt } from "@/models/Prompt";
+
 import {
 	Timestamp,
-	serverTimestamp,
 	type QueryDocumentSnapshot,
 	type SnapshotOptions,
 } from "firebase/firestore";
@@ -11,7 +12,7 @@ const createFirestoreConverter = <T extends { dateUpdated: Timestamp }>() => {
 		toFirestore: (item: T) => {
 			return {
 				...item,
-				dateUpdated: serverTimestamp(),
+				dateUpdated: Timestamp.now(),
 			};
 		},
 		fromFirestore: (
@@ -29,3 +30,4 @@ const createFirestoreConverter = <T extends { dateUpdated: Timestamp }>() => {
 };
 
 export const compassConverter = createFirestoreConverter<Compass>();
+export const promptConverter = createFirestoreConverter<Prompt>();

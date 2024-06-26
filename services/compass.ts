@@ -1,15 +1,11 @@
 import { Compass, CompassType } from "@/models/Compass";
 import {
-	QueryDocumentSnapshot,
 	Timestamp,
 	addDoc,
 	collection,
 	doc,
-	getDoc,
-	getDocs,
 	onSnapshot,
 	query,
-	serverTimestamp,
 	setDoc,
 	where,
 } from "firebase/firestore";
@@ -32,8 +28,6 @@ export async function addCompass(userId: string, type: CompassType) {
 			statement: "",
 			dateCreated: Timestamp.now(),
 			dateUpdated: Timestamp.now(),
-			prompts: getPrompts(type),
-			promptIndex: 0,
 			coreValues: [],
 			customValues: [],
 		}
@@ -56,7 +50,7 @@ export function useCompasses(userId: string) {
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
 			const compasses: Compass[] = [];
 			querySnapshot.forEach((doc) => {
-				compasses.push(doc.data());
+				compasses.push({ ...doc.data(), id: doc.id });
 			});
 
 			setCompasses(compasses);
@@ -91,6 +85,46 @@ export function useCompass(compassId: string | undefined) {
 	}, []);
 
 	return compass;
+}
+
+export async function updateStatement(compassId: string, statement: string) {
+	const compassRef = doc(db, "compasses", compassId).withConverter(
+		compassConverter
+	);
+
+	await setDoc(
+		compassRef,
+		{
+			statement,
+		},
+		{ merge: true }
+	);
+}
+
+export async function updateCoreValues(compassId: string, values: string[]) {
+	const compassRef = doc(db, "compasses", compassId).withConverter(
+		compassConverter
+	);
+	await setDoc(
+		compassRef,
+		{
+			coreValues: values,
+		},
+		{ merge: true }
+	);
+}
+
+export async function updateCustomValues(compassId: string, values: string[]) {
+	const compassRef = doc(db, "compasses", compassId).withConverter(
+		compassConverter
+	);
+	await setDoc(
+		compassRef,
+		{
+			customValues: values,
+		},
+		{ merge: true }
+	);
 }
 
 function getDefaultCompassTitle(type: CompassType) {
