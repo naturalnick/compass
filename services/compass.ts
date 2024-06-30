@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
-	businessPrompts,
+	companyPrompts,
 	familyPrompts,
 	personalPrompts,
 } from "../constants/prompts";
@@ -36,12 +36,14 @@ export async function addCompass(userId: string, type: CompassType) {
 	return newDoc.id;
 }
 
-export function useCompasses(userId: string) {
+export function useCompasses(userId: string | undefined) {
 	const [compasses, setCompasses] = useState<Compass[] | undefined>(
 		undefined
 	);
 
 	useEffect(() => {
+		if (userId === undefined) return;
+
 		const q = query(
 			collection(db, "compasses").withConverter(compassConverter),
 			where("userId", "==", userId)
@@ -57,7 +59,7 @@ export function useCompasses(userId: string) {
 		});
 
 		return () => unsubscribe();
-	}, []);
+	}, [userId]);
 
 	return compasses;
 }
@@ -85,6 +87,20 @@ export function useCompass(compassId: string | undefined) {
 	}, []);
 
 	return compass;
+}
+
+export async function updateTitle(compassId: string, title: string) {
+	const compassRef = doc(db, "compasses", compassId).withConverter(
+		compassConverter
+	);
+
+	await setDoc(
+		compassRef,
+		{
+			title,
+		},
+		{ merge: true }
+	);
 }
 
 export async function updateStatement(compassId: string, statement: string) {
@@ -131,7 +147,7 @@ function getDefaultCompassTitle(type: CompassType) {
 	switch (type) {
 		case CompassType.personal:
 			return "My Compass";
-		case CompassType.business:
+		case CompassType.company:
 			return "Company Compass";
 		case CompassType.family:
 			return "Family Compass";
@@ -142,8 +158,8 @@ function getPrompts(type: CompassType) {
 	switch (type) {
 		case CompassType.personal:
 			return personalPrompts;
-		case CompassType.business:
-			return businessPrompts;
+		case CompassType.company:
+			return companyPrompts;
 		case CompassType.family:
 			return familyPrompts;
 	}

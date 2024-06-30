@@ -2,7 +2,7 @@ import { Timestamp } from "firebase/firestore";
 
 export enum CompassType {
 	personal = "personal",
-	business = "business",
+	company = "company",
 	family = "family",
 }
 

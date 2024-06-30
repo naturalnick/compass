@@ -1,16 +1,14 @@
 import { Timestamp } from "firebase/firestore";
 
-export class Prompt {
+export class User {
 	id: string;
-	prompt: string;
-	response: string;
+	email: string;
 	dateCreated: Timestamp;
 	dateUpdated: Timestamp;
 
-	constructor(id: string, prompt: string, response: string) {
+	constructor(id: string, email: string) {
 		this.id = id;
-		this.prompt = prompt;
-		this.response = response;
+		this.email = email;
 		this.dateCreated = Timestamp.now();
 		this.dateUpdated = Timestamp.now();
 	}

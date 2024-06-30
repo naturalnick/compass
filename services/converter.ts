@@ -1,5 +1,6 @@
 import { Compass } from "@/models/Compass";
 import { Prompt } from "@/models/Prompt";
+import { User } from "@/models/User";
 
 import {
 	Timestamp,
@@ -31,3 +32,4 @@ const createFirestoreConverter = <T extends { dateUpdated: Timestamp }>() => {
 
 export const compassConverter = createFirestoreConverter<Compass>();
 export const promptConverter = createFirestoreConverter<Prompt>();
+export const userConverter = createFirestoreConverter<User>();

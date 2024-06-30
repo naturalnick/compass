@@ -1,13 +1,46 @@
+import { CompassType } from "@/models/Compass";
+import { addCompass, useCompasses } from "@/services/compass";
 import Colors from "@/utils/colors";
 import { AntDesign, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
-import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
+import {
+	Alert,
+	Pressable,
+	SafeAreaView,
+	ScrollView,
+	Text,
+	View,
+} from "react-native";
 import { Card } from "react-native-paper";
 
-type Props = {};
+export default function NewCompassModal() {
+	const compasses = useCompasses("nick");
 
-export default function NewCompassModal({}: Props) {
+	function handleAddCompass(compassType: CompassType) {
+		if (compasses && compasses?.length < 0) {
+			addCompass("nick", compassType);
+		} else {
+			Alert.alert(
+				"1 Compass Limit",
+				"You've hit the max number of Compasses (1) for this device.\n\nUpgrade to add more Compasses.",
+				[
+					{
+						text: "Upgrade",
+						onPress: () => console.log("Upgrade pressed"),
+						isPreferred: true,
+					},
+					{
+						text: "Cancel",
+						onPress: () => console.log("Cancel Pressed"),
+						style: "cancel",
+					},
+				]
+			);
+		}
+
+		router.back();
+	}
 	return (
 		<View style={{ flex: 1 }}>
 			<SafeAreaView>
@@ -51,91 +84,108 @@ export default function NewCompassModal({}: Props) {
 					>
 						Choose your Compass Type:
 					</Text>
-					<Card style={{ padding: 20 }}>
-						<View
-							style={{
-								flexDirection: "row",
-								gap: 15,
-								marginBottom: 10,
-							}}
-						>
-							<FontAwesome name="user" size={24} color="black" />
-							<Text
+					<Pressable
+						onPress={() => handleAddCompass(CompassType.personal)}
+					>
+						<Card style={{ padding: 20 }}>
+							<View
 								style={{
-									fontSize: 20,
-									fontFamily: "Cochin",
-									fontWeight: "bold",
+									flexDirection: "row",
+									gap: 15,
+									marginBottom: 10,
 								}}
 							>
-								Personal
+								<FontAwesome
+									name="user"
+									size={24}
+									color="black"
+								/>
+								<Text
+									style={{
+										fontSize: 20,
+										fontFamily: "Cochin",
+										fontWeight: "bold",
+									}}
+								>
+									Personal
+								</Text>
+							</View>
+							<Text>
+								Define your core values, passions, goals, and
+								purpose to guide your personal growth and
+								decisions in life.
 							</Text>
-						</View>
-						<Text>
-							Define your core values, passions, goals, and
-							purpose to guide your personal growth and decisions
-							in life.
-						</Text>
-					</Card>
-					<Card style={{ padding: 20 }}>
-						<View
-							style={{
-								flexDirection: "row",
-								gap: 15,
-								marginBottom: 10,
-							}}
-						>
-							<FontAwesome6
-								name="people-roof"
-								size={24}
-								color="black"
-							/>
-							<Text
+						</Card>
+					</Pressable>
+					<Pressable
+						onPress={() => handleAddCompass(CompassType.family)}
+					>
+						<Card style={{ padding: 20 }}>
+							<View
 								style={{
-									fontSize: 20,
-									fontFamily: "Cochin",
-									fontWeight: "bold",
+									flexDirection: "row",
+									gap: 15,
+									marginBottom: 10,
 								}}
 							>
-								Family
+								<FontAwesome6
+									name="people-roof"
+									size={24}
+									color="black"
+								/>
+								<Text
+									style={{
+										fontSize: 20,
+										fontFamily: "Cochin",
+										fontWeight: "bold",
+									}}
+								>
+									Family
+								</Text>
+							</View>
+							<Text>
+								Collaborate with family members, couples, or
+								close friends to outline shared values, goals,
+								and visions, fostering unity and guiding
+								collective decisions.
 							</Text>
-						</View>
-						<Text>
-							Collaborate with family members, couples, or close
-							friends to outline shared values, goals, and
-							visions, fostering unity and guiding collective
-							decisions.
-						</Text>
-					</Card>
-					<Card style={{ padding: 20 }}>
-						<View
-							style={{
-								flexDirection: "row",
-								gap: 15,
-								marginBottom: 10,
-							}}
-						>
-							<FontAwesome6
-								name="people-group"
-								size={24}
-								color="black"
-							/>
-							<Text
+						</Card>
+					</Pressable>
+					<Pressable
+						onPress={() => handleAddCompass(CompassType.company)}
+					>
+						<Card style={{ padding: 20 }}>
+							<View
 								style={{
-									fontSize: 20,
-									fontFamily: "Cochin",
-									fontWeight: "bold",
+									flexDirection: "row",
+									gap: 15,
+									marginBottom: 10,
 								}}
 							>
-								Company
+								<FontAwesome6
+									name="people-group"
+									size={24}
+									color="black"
+								/>
+								<Text
+									style={{
+										fontSize: 20,
+										fontFamily: "Cochin",
+										fontWeight: "bold",
+									}}
+								>
+									Company
+								</Text>
+							</View>
+							<Text>
+								Collaborate with co-workers to create a mission
+								statement that aligns with your company's values
+								and objectives to steer business strategies and
+								operations and foster a cohesive work
+								environment.
 							</Text>
-						</View>
-						<Text>
-							Collaborate with co-workers to create a mission
-							statement that aligns with your company's values and
-							objectives to steer business strategies and
-							operations and foster a cohesive work environment.
-						</Text>
-					</Card>
+						</Card>
+					</Pressable>
 				</View>
 			</ScrollView>
 		</View>

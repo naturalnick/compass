@@ -70,10 +70,10 @@ export const familyPrompts = [
 	},
 ];
 
-export const businessPrompts = [
+export const companyPrompts = [
 	{
-		prompt: "Our business exists to...",
-		tips: "Define the fundamental reason your business exists. Consider the broader problem you solve, the need you fulfill, or the transformation you enable for your customers.",
+		prompt: "Our company exists to...",
+		tips: "Define the fundamental reason your company exists. Consider the broader problem you solve, the need you fulfill, or the transformation you enable for your customers.",
 	},
 
 	{
@@ -101,7 +101,11 @@ export const businessPrompts = [
 		tips: "Articulate the principles and beliefs that guide your decision-making, interactions, and overall company culture. Consider values such as integrity, innovation, customer focus, sustainability, or social responsibility.",
 	},
 	{
-		prompt: "In an ideal future, our business will...",
-		tips: "Envision the long-term impact and legacy you desire for your business. Consider growth, market leadership, community involvement, or social change you hope to achieve.",
+		prompt: "What kind of workplace do you want to have?",
+		tips: "Describe the culture, environment, and practices that define your ideal workplace. Consider aspects such as employee well-being, collaboration, innovation, inclusivity, and work-life balance. Highlight the elements that make your workplace unique and desirable for current and prospective employees.",
+	},
+	{
+		prompt: "In an ideal future, our company will...",
+		tips: "Envision the long-term impact and legacy you desire for the company. Consider growth, market leadership, community involvement, or social change you hope to achieve.",
 	},
 ];
