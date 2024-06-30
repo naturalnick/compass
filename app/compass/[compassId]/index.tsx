@@ -1,6 +1,8 @@
 import BuilderItem from "@/components/BuilderItem";
+import Loading from "@/components/Loading";
 import { useCompass } from "@/services/compass";
 import Colors from "@/utils/colors";
+import { fontStyles } from "@/utils/typography";
 import {
 	AntDesign,
 	FontAwesome,
@@ -50,13 +52,14 @@ export default function Compass() {
 					>
 						<Ionicons name="arrow-back" size={30} color="white" />
 					</Pressable>
-					<Pressable onPress={Keyboard.dismiss}>
+					<Pressable
+						onPress={Keyboard.dismiss}
+						style={{ flexGrow: 1, flexShrink: 1 }}
+					>
 						<Text
 							style={{
-								fontSize: 26,
-								fontWeight: "bold",
+								...fontStyles.header,
 								color: "white",
-								fontFamily: "Cochin",
 								flexGrow: 1,
 								flexShrink: 1,
 								textAlign: "center",
@@ -84,25 +87,42 @@ export default function Compass() {
 				</View>
 			</SafeAreaView>
 			{compass === undefined ? (
-				<View>
-					<Text>Loading...</Text>
-				</View>
+				<Loading />
 			) : (
 				<ScrollView style={{ padding: 15 }}>
 					<Link href={`/compass/${compassId}/edit`} asChild>
-						<Card
-							style={{
-								marginBottom: 30,
-								padding: 15,
-								borderColor: Colors.primary,
-								borderWidth: 3,
-							}}
-						>
-							<Text style={{ fontSize: 17, color: "gray" }}>
-								{compass?.statement || "Start writing..."}
-							</Text>
-						</Card>
+						<Pressable>
+							<Card
+								style={{
+									marginBottom: 30,
+									padding: 15,
+									borderColor: Colors.primary,
+									borderWidth: 3,
+								}}
+							>
+								<Text
+									style={{
+										...fontStyles.regular,
+										color: compass?.statement
+											? "black"
+											: "gray",
+									}}
+								>
+									{compass?.statement ||
+										"Write your Compass here..."}
+								</Text>
+							</Card>
+						</Pressable>
 					</Link>
+					<Text
+						style={{
+							...fontStyles.regularBold,
+							color: "white",
+							paddingVertical: 20,
+						}}
+					>
+						Use the tools below to get started.
+					</Text>
 					<BuilderItem
 						route="/builder/about"
 						title="What is a Compass?"

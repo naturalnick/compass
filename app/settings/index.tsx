@@ -1,6 +1,8 @@
 import { useAuth } from "@/hooks/useAuth";
 import { signOutUser } from "@/services/auth";
-import { Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import Colors from "@/utils/colors";
+import { fontStyles } from "@/utils/typography";
+import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 import {
 	Alert,
@@ -16,7 +18,7 @@ export default function AppSettings() {
 	const { fUser } = useAuth();
 
 	return (
-		<View style={{ height: "100%" }}>
+		<View style={{ flex: 1 }}>
 			<SafeAreaView>
 				<View
 					style={{
@@ -26,15 +28,13 @@ export default function AppSettings() {
 						padding: 15,
 					}}
 				>
-					<Pressable onPress={() => {}}>
+					<Pressable onPress={() => router.back()}>
 						<Ionicons name="arrow-back" size={30} color="#FFCC01" />
 					</Pressable>
 					<Text
 						style={{
-							fontSize: 26,
-							fontWeight: "bold",
+							...fontStyles.header,
 							color: "white",
-							fontFamily: "Cochin",
 						}}
 					>
 						Compass Settings
@@ -45,9 +45,8 @@ export default function AppSettings() {
 				<Text
 					style={{
 						color: "white",
-						fontSize: 17,
+						...fontStyles.regularBold,
 						paddingBottom: 10,
-						fontWeight: "bold",
 					}}
 				>
 					Account
@@ -74,18 +73,13 @@ export default function AppSettings() {
 											gap: 10,
 										}}
 									>
-										<FontAwesome5
-											name="user-alt"
-											size={22}
+										<FontAwesome
+											name="user"
+											size={24}
 											color="black"
 										/>
-										<Text
-											style={{
-												fontWeight: "bold",
-												fontSize: 17,
-											}}
-										>
-											Sign-In or Sign-up
+										<Text style={fontStyles.regular}>
+											Sign In or Sign Up
 										</Text>
 									</View>
 									<Feather
@@ -99,15 +93,28 @@ export default function AppSettings() {
 					</Link>
 				) : (
 					<View>
-						<Text
+						<View
 							style={{
-								color: "white",
-								fontSize: 17,
-								padding: 15,
+								flexDirection: "row",
+								alignItems: "center",
+								padding: 10,
+								gap: 15,
 							}}
 						>
-							Signed In
-						</Text>
+							<FontAwesome
+								name="user-circle"
+								size={30}
+								color={Colors.primary}
+							/>
+							<Text
+								style={{
+									color: "white",
+									...fontStyles.regular,
+								}}
+							>
+								{fUser.email}
+							</Text>
+						</View>
 						<Pressable onPress={() => signOutUser()}>
 							<Card
 								style={{
@@ -128,22 +135,12 @@ export default function AppSettings() {
 											gap: 10,
 										}}
 									>
-										<FontAwesome5
-											name="user-alt"
-											size={22}
-											color="black"
-										/>
-										<Text
-											style={{
-												fontWeight: "bold",
-												fontSize: 17,
-											}}
-										>
+										<Text style={fontStyles.regular}>
 											Sign Out
 										</Text>
 									</View>
 									<Ionicons
-										name="exit"
+										name="exit-outline"
 										size={24}
 										color="black"
 									/>
@@ -191,9 +188,9 @@ export default function AppSettings() {
 									flexShrink: 1,
 								}}
 							>
-								<FontAwesome5
+								<FontAwesome
 									name="user-plus"
-									size={22}
+									size={24}
 									color="black"
 								/>
 								<View
@@ -203,15 +200,10 @@ export default function AppSettings() {
 										gap: 5,
 									}}
 								>
-									<Text
-										style={{
-											fontWeight: "bold",
-											fontSize: 17,
-										}}
-									>
+									<Text style={fontStyles.regularBold}>
 										Upgrade
 									</Text>
-									<Text>
+									<Text style={fontStyles.regular}>
 										Remove ads, increase your maximum number
 										of Compasses to five & back-up your
 										data. Supports a solo developer!

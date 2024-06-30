@@ -3,6 +3,7 @@ import PromptItem from "@/components/PromptItem";
 import { personalPrompts } from "@/constants/prompts";
 import { useCompass } from "@/services/compass";
 import { usePrompts } from "@/services/prompts";
+import { fontStyles } from "@/utils/typography";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
@@ -35,17 +36,15 @@ export default function Prompts() {
 				<View style={{ gap: 5, flexShrink: 1, flexGrow: 1 }}>
 					<Text
 						style={{
-							fontSize: 26,
-							fontWeight: "bold",
+							...fontStyles.header,
 							color: "white",
-							fontFamily: "Cochin",
 						}}
 					>
 						Prompts
 					</Text>
 					<Text
 						style={{
-							fontSize: 18,
+							...fontStyles.regular,
 							color: "white",
 						}}
 					>

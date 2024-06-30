@@ -2,6 +2,7 @@ import Loading from "@/components/Loading";
 import { personalPrompts } from "@/constants/prompts";
 import { updatePrompt, usePrompt } from "@/services/prompts";
 import Colors from "@/utils/colors";
+import { fontStyles } from "@/utils/typography";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -56,6 +57,7 @@ export default function PromptEditor() {
 				<View
 					style={{
 						flexDirection: "row",
+						alignItems: "center",
 						gap: 20,
 						padding: 15,
 					}}
@@ -69,10 +71,8 @@ export default function PromptEditor() {
 					>
 						<Text
 							style={{
-								fontSize: 24,
-								fontWeight: "bold",
+								...fontStyles.regularBold,
 								color: "white",
-								fontFamily: "Cochin",
 							}}
 						>
 							{prompt?.prompt}
@@ -111,7 +111,7 @@ export default function PromptEditor() {
 							value={response}
 							onChangeText={(text) => setResponse(text)}
 							style={{
-								fontSize: 17,
+								...fontStyles.regular,
 								flexGrow: 1,
 								paddingTop: 15,
 								paddingBottom: 15,

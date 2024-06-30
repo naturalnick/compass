@@ -1,5 +1,6 @@
 import { Compass } from "@/models/Compass";
 import { formatDate } from "@/utils/helpers";
+import { fontStyles } from "@/utils/typography";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import React from "react";
@@ -26,8 +27,7 @@ export default function CompassItem({ compass }: { compass: Compass }) {
 						<Text
 							style={{
 								textAlign: "center",
-								fontSize: 24,
-								fontFamily: "Cochin",
+								...fontStyles.header,
 							}}
 						>
 							{compass.title}
@@ -36,6 +36,7 @@ export default function CompassItem({ compass }: { compass: Compass }) {
 					<View
 						style={{
 							flexDirection: "row",
+							alignItems: "center",
 							gap: 5,
 							position: "absolute",
 							left: 0,
@@ -44,7 +45,7 @@ export default function CompassItem({ compass }: { compass: Compass }) {
 						}}
 					>
 						<SimpleLineIcons name="pencil" size={15} color="gray" />
-						<Text style={{ color: "gray" }}>
+						<Text style={{ color: "gray", ...fontStyles.regular }}>
 							{formatDate(compass.dateUpdated)}
 						</Text>
 					</View>

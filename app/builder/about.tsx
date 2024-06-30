@@ -1,5 +1,6 @@
 import { guide } from "@/constants/guide";
 import Colors from "@/utils/colors";
+import { fontStyles } from "@/utils/typography";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
@@ -23,10 +24,8 @@ export default function About() {
 					</Pressable>
 					<Text
 						style={{
-							fontSize: 26,
-							fontWeight: "bold",
+							...fontStyles.header,
 							color: "white",
-							fontFamily: "Cochin",
 						}}
 					>
 						What is a Compass?
@@ -41,8 +40,7 @@ export default function About() {
 								style={{
 									paddingVertical: 8,
 									color: "black",
-									fontSize: 17,
-									letterSpacing: 0.3,
+									...fontStyles.regular,
 								}}
 							>
 								{text}

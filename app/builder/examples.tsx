@@ -1,5 +1,6 @@
-import { examples } from "@/constants/examples";
+import { personalExamples } from "@/constants/examples";
 import Colors from "@/utils/colors";
+import { fontStyles } from "@/utils/typography";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
@@ -22,10 +23,8 @@ export default function Examples() {
 					</Pressable>
 					<Text
 						style={{
-							fontSize: 26,
-							fontWeight: "bold",
+							...fontStyles.header,
 							color: "white",
-							fontFamily: "Cochin",
 						}}
 					>
 						Examples
@@ -33,26 +32,27 @@ export default function Examples() {
 				</View>
 			</SafeAreaView>
 			<ScrollView style={{ padding: 15 }}>
-				{examples.map((text, index) => (
+				{personalExamples.map((text, index) => (
 					<View key={text}>
 						<Card
 							style={{
 								marginBottom:
-									index === examples.length - 1 ? 100 : 0,
+									index === personalExamples.length - 1
+										? 100
+										: 0,
 							}}
 						>
 							<Text
 								style={{
 									padding: 15,
 									color: "black",
-									fontSize: 17,
-									letterSpacing: 0.3,
+									...fontStyles.regular,
 								}}
 							>
 								{text}
 							</Text>
 						</Card>
-						{index < examples.length - 1 && (
+						{index < personalExamples.length - 1 && (
 							<MaterialCommunityIcons
 								name="star-four-points"
 								size={24}

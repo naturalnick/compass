@@ -1,25 +1,21 @@
+import { useAuth } from "@/hooks/useAuth";
 import { CompassType } from "@/models/Compass";
 import { addCompass, useCompasses } from "@/services/compass";
 import Colors from "@/utils/colors";
-import { AntDesign, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { fontStyles } from "@/utils/typography";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
-import {
-	Alert,
-	Pressable,
-	SafeAreaView,
-	ScrollView,
-	Text,
-	View,
-} from "react-native";
+import { Alert, Pressable, SafeAreaView, Text, View } from "react-native";
 import { Card } from "react-native-paper";
 
 export default function NewCompassModal() {
-	const compasses = useCompasses("nick");
+	const { userId } = useAuth();
+	const compasses = useCompasses(userId);
 
 	function handleAddCompass(compassType: CompassType) {
-		if (compasses && compasses?.length < 0) {
-			addCompass("nick", compassType);
+		if (userId && compasses && compasses?.length < 0) {
+			addCompass(userId, compassType);
 		} else {
 			Alert.alert(
 				"1 Compass Limit",
@@ -61,10 +57,8 @@ export default function NewCompassModal() {
 					<View style={{ gap: 5, flexShrink: 1, flexGrow: 1 }}>
 						<Text
 							style={{
-								fontSize: 26,
-								fontWeight: "bold",
+								...fontStyles.header,
 								color: "white",
-								fontFamily: "Cochin",
 							}}
 						>
 							New Compass
@@ -72,52 +66,37 @@ export default function NewCompassModal() {
 					</View>
 				</View>
 			</SafeAreaView>
-			<ScrollView>
-				<View style={{ padding: 15, gap: 20 }}>
-					<Text
-						style={{
-							color: "white",
-							fontSize: 20,
-							fontWeight: "bold",
-							fontFamily: "Cochin",
-						}}
-					>
-						Choose your Compass Type:
-					</Text>
-					<Pressable
-						onPress={() => handleAddCompass(CompassType.personal)}
-					>
-						<Card style={{ padding: 20 }}>
-							<View
-								style={{
-									flexDirection: "row",
-									gap: 15,
-									marginBottom: 10,
-								}}
-							>
-								<FontAwesome
-									name="user"
-									size={24}
-									color="black"
-								/>
-								<Text
-									style={{
-										fontSize: 20,
-										fontFamily: "Cochin",
-										fontWeight: "bold",
-									}}
-								>
-									Personal
-								</Text>
-							</View>
-							<Text>
-								Define your core values, passions, goals, and
-								purpose to guide your personal growth and
-								decisions in life.
-							</Text>
-						</Card>
-					</Pressable>
-					<Pressable
+			<View style={{ padding: 15, gap: 20 }}>
+				<Text
+					style={{
+						color: "white",
+						...fontStyles.regularBold,
+					}}
+				>
+					Choose your Compass Type:
+				</Text>
+				<Pressable
+					onPress={() => handleAddCompass(CompassType.personal)}
+				>
+					<Card style={{ padding: 20 }}>
+						<View
+							style={{
+								flexDirection: "row",
+								gap: 15,
+								marginBottom: 10,
+							}}
+						>
+							<FontAwesome name="user" size={24} color="black" />
+							<Text style={fontStyles.regularBold}>Personal</Text>
+						</View>
+						<Text>
+							Define your core values, passions, goals, and
+							purpose to guide your personal growth and decisions
+							in life.
+						</Text>
+					</Card>
+				</Pressable>
+				{/* <Pressable
 						onPress={() => handleAddCompass(CompassType.family)}
 					>
 						<Card style={{ padding: 20 }}>
@@ -134,16 +113,12 @@ export default function NewCompassModal() {
 									color="black"
 								/>
 								<Text
-									style={{
-										fontSize: 20,
-										fontFamily: "Cochin",
-										fontWeight: "bold",
-									}}
+									style={fontStyles.regularBold}
 								>
 									Family
 								</Text>
 							</View>
-							<Text>
+							<Text style={fontStyles.regular}>
 								Collaborate with family members, couples, or
 								close friends to outline shared values, goals,
 								and visions, fostering unity and guiding
@@ -168,16 +143,12 @@ export default function NewCompassModal() {
 									color="black"
 								/>
 								<Text
-									style={{
-										fontSize: 20,
-										fontFamily: "Cochin",
-										fontWeight: "bold",
-									}}
+									style={fontStyles.regularBold}
 								>
 									Company
 								</Text>
 							</View>
-							<Text>
+							<Text style={fontStyles.regular}>
 								Collaborate with co-workers to create a mission
 								statement that aligns with your company's values
 								and objectives to steer business strategies and
@@ -185,9 +156,22 @@ export default function NewCompassModal() {
 								environment.
 							</Text>
 						</Card>
-					</Pressable>
+					</Pressable> */}
+			</View>
+			<SafeAreaView style={{ flex: 1 }}>
+				<View
+					style={{
+						flex: 1,
+						padding: 20,
+						alignItems: "center",
+						justifyContent: "flex-end",
+					}}
+				>
+					<Text style={{ color: "white", ...fontStyles.regularBold }}>
+						More Compass types coming soon!
+					</Text>
 				</View>
-			</ScrollView>
+			</SafeAreaView>
 		</View>
 	);
 }

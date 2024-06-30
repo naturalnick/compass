@@ -1,6 +1,7 @@
 import { personalPrompts } from "@/constants/prompts";
 import Colors from "@/utils/colors";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { fontStyles } from "@/utils/typography";
+import { AntDesign } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
@@ -37,10 +38,8 @@ export default function TipModal() {
 					<View style={{ gap: 5, flexShrink: 1, flexGrow: 1 }}>
 						<Text
 							style={{
-								fontSize: 26,
-								fontWeight: "bold",
+								...fontStyles.header,
 								color: "white",
-								fontFamily: "Cochin",
 							}}
 						>
 							Prompt Tips
@@ -60,10 +59,8 @@ export default function TipModal() {
 				>
 					<Text
 						style={{
-							fontSize: 26,
-							fontWeight: "bold",
+							...fontStyles.regularBold,
 							color: "white",
-							fontFamily: "Cochin",
 						}}
 					>
 						{prompt?.prompt}
@@ -71,18 +68,16 @@ export default function TipModal() {
 				</View>
 				<Text
 					style={{
-						fontSize: 18,
 						color: "white",
-						letterSpacing: 0.3,
+						...fontStyles.regular,
 					}}
 				>
 					{prompt?.tips}
 				</Text>
 				<Text
 					style={{
-						fontSize: 18,
 						color: "white",
-						letterSpacing: 0.3,
+						...fontStyles.regular,
 						marginTop: 20,
 					}}
 				>

@@ -1,4 +1,5 @@
 import Colors from "@/utils/colors";
+import { fontStyles } from "@/utils/typography";
 import { Entypo, Feather } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import React from "react";
@@ -33,15 +34,7 @@ function PromptItem({ compassId, promptId, prompt, hasContent }: Props) {
 							alignItems: "center",
 						}}
 					>
-						<Text
-							style={{
-								fontSize: 18,
-								fontWeight: "bold",
-								fontFamily: "Cochin",
-							}}
-						>
-							{prompt}
-						</Text>
+						<Text style={fontStyles.regular}>{prompt}</Text>
 						<View
 							style={{
 								flexDirection: "row",

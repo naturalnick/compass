@@ -1,6 +1,7 @@
 import Loading from "@/components/Loading";
 import { updateStatement, useCompass } from "@/services/compass";
 import Colors from "@/utils/colors";
+import { fontStyles } from "@/utils/typography";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -56,10 +57,8 @@ export default function CompassEditor() {
 				>
 					<Text
 						style={{
-							fontSize: 24,
-							fontWeight: "bold",
+							...fontStyles.header,
 							color: "white",
-							fontFamily: "Cochin",
 						}}
 					>
 						{savedCompass?.title}
@@ -88,7 +87,7 @@ export default function CompassEditor() {
 							value={statement}
 							onChangeText={(text) => setStatement(text)}
 							style={{
-								fontSize: 17,
+								...fontStyles.regular,
 								flexGrow: 1,
 								paddingTop: 15,
 								paddingBottom: 15,

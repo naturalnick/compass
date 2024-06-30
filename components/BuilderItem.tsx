@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { fontStyles } from "@/utils/typography";
 import { Link } from "expo-router";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
@@ -43,17 +43,14 @@ export default function BuilderItem({
 							<Text
 								style={{
 									textAlign: "center",
-									fontSize: 21,
-									fontFamily: "Cochin",
-									fontWeight: "bold",
+									...fontStyles.regularBold,
 								}}
 							>
 								{title}
 							</Text>
 							<Text
 								style={{
-									fontSize: 17,
-									fontFamily: "Cochin",
+									...fontStyles.regular,
 									color: "gray",
 								}}
 							>

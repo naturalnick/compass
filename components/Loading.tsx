@@ -1,3 +1,4 @@
+import { fontStyles } from "@/utils/typography";
 import React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
@@ -21,7 +22,7 @@ export default function Loading({ message, mode = "light" }: Props) {
 					style={{
 						textAlign: "center",
 						color: mode === "light" ? "white" : "black",
-						fontSize: 17,
+						...fontStyles.regular,
 					}}
 				>
 					{message}

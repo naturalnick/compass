@@ -1,4 +1,5 @@
 import { updateTitle, useCompass } from "@/services/compass";
+import { fontStyles } from "@/utils/typography";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -47,10 +48,8 @@ export default function CompassSettings() {
 					</Pressable>
 					<Text
 						style={{
-							fontSize: 26,
-							fontWeight: "bold",
+							...fontStyles.header,
 							color: "white",
-							fontFamily: "Cochin",
 						}}
 					>
 						Compass Settings
@@ -59,13 +58,15 @@ export default function CompassSettings() {
 			</SafeAreaView>
 			<ScrollView style={{ padding: 15 }}>
 				<Card style={{ padding: 15, marginBottom: 100 }}>
-					<Text style={{ fontWeight: "bold", marginBottom: 5 }}>
+					<Text
+						style={{ ...fontStyles.regularBold, marginBottom: 5 }}
+					>
 						Name:
 					</Text>
 					<TextInput
 						value={title}
 						onChangeText={(text) => setTitle(text)}
-						style={{ fontSize: 17 }}
+						style={{ ...fontStyles.regular }}
 					/>
 				</Card>
 			</ScrollView>

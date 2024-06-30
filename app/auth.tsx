@@ -2,6 +2,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { signInUser, signUpUser } from "@/services/auth";
 import Colors from "@/utils/colors";
 import { isValidEmail, isValidPassword } from "@/utils/helpers";
+import { fontStyles } from "@/utils/typography";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -90,10 +91,8 @@ export default function Authentication() {
 					</Pressable>
 					<Text
 						style={{
-							fontSize: 26,
-							fontWeight: "bold",
 							color: "white",
-							fontFamily: "Cochin",
+							...fontStyles.header,
 						}}
 					>
 						{isSigningIn ? "Sign In" : "Create an Account"}
@@ -104,9 +103,8 @@ export default function Authentication() {
 				<Text
 					style={{
 						color: "white",
-						fontSize: 17,
+						...fontStyles.regularBold,
 						paddingBottom: 10,
-						fontWeight: "bold",
 					}}
 				>
 					Email
@@ -117,7 +115,7 @@ export default function Authentication() {
 						onChangeText={(text) => setEmail(text)}
 						keyboardType="email-address"
 						textContentType="emailAddress"
-						style={{ fontSize: 17, padding: 10 }}
+						style={{ ...fontStyles.regular, padding: 10 }}
 					/>
 				</Card>
 				{!!errors?.email && (
@@ -125,7 +123,7 @@ export default function Authentication() {
 						style={{
 							color: Colors.primary,
 							padding: 5,
-							fontWeight: "600",
+							...fontStyles.regularBold,
 						}}
 					>
 						{errors.email}
@@ -135,9 +133,9 @@ export default function Authentication() {
 				<Text
 					style={{
 						color: "white",
-						fontSize: 17,
+						...fontStyles.regular,
 						paddingVertical: 10,
-						fontWeight: "bold",
+						...fontStyles.regularBold,
 					}}
 				>
 					Password
@@ -150,7 +148,7 @@ export default function Authentication() {
 						textContentType={
 							isSigningIn ? "password" : "newPassword"
 						}
-						style={{ fontSize: 17, padding: 10 }}
+						style={{ ...fontStyles.regular, padding: 10 }}
 					/>
 				</Card>
 				{!!errors?.password && (
@@ -158,7 +156,7 @@ export default function Authentication() {
 						style={{
 							color: Colors.primary,
 							padding: 5,
-							fontWeight: "600",
+							...fontStyles.regularBold,
 						}}
 					>
 						{errors.password}
@@ -174,7 +172,7 @@ export default function Authentication() {
 					onPress={submitForm}
 					loading={loading}
 				>
-					<Text style={{ color: "black" }}>
+					<Text style={{ color: "black", ...fontStyles.regularBold }}>
 						{isSigningIn ? "Sign In" : "Sign Up"}
 					</Text>
 				</Button>
@@ -183,7 +181,7 @@ export default function Authentication() {
 						style={{
 							color: Colors.primary,
 							padding: 5,
-							fontWeight: "600",
+							...fontStyles.regularBold,
 						}}
 					>
 						{errors.error}
@@ -199,7 +197,7 @@ export default function Authentication() {
 					<Text
 						style={{
 							color: "white",
-							fontSize: 16,
+							...fontStyles.regular,
 						}}
 					>
 						{isSigningIn
@@ -207,7 +205,12 @@ export default function Authentication() {
 							: "Already have an account?"}
 					</Text>
 					<Button onPress={() => setIsSigningIn((prev) => !prev)}>
-						<Text style={{ color: Colors.primary, fontSize: 16 }}>
+						<Text
+							style={{
+								color: Colors.primary,
+								...fontStyles.regularBold,
+							}}
+						>
 							{isSigningIn ? "Sign Up" : "Sign In"}
 						</Text>
 					</Button>

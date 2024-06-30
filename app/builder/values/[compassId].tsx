@@ -8,6 +8,7 @@ import {
 } from "@/services/compass";
 import Colors from "@/utils/colors";
 import { isValidLettersOnly } from "@/utils/helpers";
+import { fontStyles } from "@/utils/typography";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -141,10 +142,8 @@ export default function ValuesPicker() {
 					>
 						<Text
 							style={{
-								fontSize: 26,
-								fontWeight: "bold",
+								...fontStyles.regularBold,
 								color: "white",
-								fontFamily: "Cochin",
 							}}
 						>
 							What are your core values?
@@ -157,18 +156,16 @@ export default function ValuesPicker() {
 						>
 							<Text
 								style={{
-									fontSize: 18,
+									...fontStyles.regular,
 									color: "white",
-									fontFamily: "Cochin",
 								}}
 							>
 								Choose your top 10
 							</Text>
 							<Text
 								style={{
-									fontSize: 18,
+									...fontStyles.regular,
 									color: "white",
-									fontFamily: "Cochin",
 								}}
 							>
 								{`${selectedValues.length} selected`}
@@ -184,10 +181,8 @@ export default function ValuesPicker() {
 					>
 						<Text
 							style={{
-								fontSize: 20,
+								...fontStyles.regularBold,
 								color: "white",
-								fontWeight: "bold",
-								fontFamily: "Cochin",
 								marginVertical: 15,
 							}}
 						>
@@ -214,10 +209,8 @@ export default function ValuesPicker() {
 				<View>
 					<Text
 						style={{
-							fontSize: 22,
+							...fontStyles.regularBold,
 							color: "white",
-							fontWeight: "bold",
-							fontFamily: "Cochin",
 							marginVertical: 15,
 						}}
 					>
@@ -258,7 +251,7 @@ export default function ValuesPicker() {
 									setCustomValueText(text)
 								}
 								style={{
-									fontSize: 17,
+									...fontStyles.regular,
 									flexGrow: 1,
 									flexShrink: 1,
 								}}
@@ -290,6 +283,7 @@ export default function ValuesPicker() {
 									style={{
 										color: "red",
 										padding: 3,
+										...fontStyles.regularBold,
 									}}
 								>
 									{customValueError}

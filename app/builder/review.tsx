@@ -1,5 +1,6 @@
 import { reviewQuestions } from "@/constants/reviewQuestions";
 import Colors from "@/utils/colors";
+import { fontStyles } from "@/utils/typography";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
@@ -23,10 +24,8 @@ export default function Review() {
 					</Pressable>
 					<Text
 						style={{
-							fontSize: 26,
-							fontWeight: "bold",
 							color: "white",
-							fontFamily: "Cochin",
+							...fontStyles.header,
 						}}
 					>
 						Review
@@ -38,8 +37,7 @@ export default function Review() {
 					<Text
 						style={{
 							color: "black",
-							fontSize: 17,
-							letterSpacing: 0.3,
+							...fontStyles.regular,
 						}}
 					>
 						Once you've written your Compass, reflect on the
@@ -50,8 +48,7 @@ export default function Review() {
 						style={{
 							paddingTop: 15,
 							color: "black",
-							fontSize: 17,
-							letterSpacing: 0.3,
+							...fontStyles.regular,
 						}}
 					>
 						Always feel free to update your Compass as needed. It
@@ -66,8 +63,7 @@ export default function Review() {
 							style={{
 								paddingVertical: 10,
 								color: "white",
-								fontSize: 17,
-								letterSpacing: 0.4,
+								...fontStyles.regular,
 								marginBottom:
 									index === reviewQuestions.length - 1
 										? 100
