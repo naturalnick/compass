@@ -67,6 +67,7 @@ export default function CompassSettings() {
 						value={title}
 						onChangeText={(text) => setTitle(text)}
 						style={{ ...fontStyles.regular }}
+						maxLength={36}
 					/>
 				</Card>
 			</ScrollView>

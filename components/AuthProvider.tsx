@@ -5,6 +5,8 @@ import { generateUniqueId } from "@/utils/helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User as fUser } from "firebase/auth";
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { Alert, Platform } from "react-native";
+import Purchases, { LOG_LEVEL } from "react-native-purchases";
 
 interface AuthContextType {
 	userId: string | undefined;
@@ -28,7 +30,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			const uid = await getUserId();
 			setUserId(uid ?? undefined);
 		})();
+
+		// (async () => {
+		// 	try {
+		// 		if (await Purchases.isConfigured()) {
+		// 			const offerings = await Purchases.getOfferings();
+		// 			if (offerings.current !== null) {
+		// 				// Display current offering with offerings.current
+		// 			}
+		// 		}
+		// 	} catch (e) {
+		// 		console.error(e);
+		// 	}
+		// })();
 	}, []);
+
+	// useEffect(() => {
+	// 	Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
+
+	// 	if (Platform.OS === "ios") {
+	// 		Purchases.configure({ apiKey: "" });
+	// 	} else if (Platform.OS === "android") {
+	// 		Purchases.configure({ apiKey: "" });
+	// 	}
+	// }, []);
 
 	useEffect(() => {
 		if (fUser) {

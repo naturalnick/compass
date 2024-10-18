@@ -2,9 +2,17 @@ import { fontStyles } from "@/utils/typography";
 import React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
-type Props = { message?: string; mode?: "light" | "dark" };
+type Props = {
+	message?: string;
+	mode?: "light" | "dark";
+	size?: "small" | "large";
+};
 
-export default function Loading({ message, mode = "light" }: Props) {
+export default function Loading({
+	message,
+	mode = "light",
+	size = "large",
+}: Props) {
 	return (
 		<View
 			style={{
@@ -14,7 +22,7 @@ export default function Loading({ message, mode = "light" }: Props) {
 			}}
 		>
 			<ActivityIndicator
-				size="large"
+				size={size}
 				color={mode === "light" ? "white" : "black"}
 			/>
 			{message && (

@@ -1,13 +1,35 @@
 import { Compass } from "@/models/Compass";
 import { fontStyles } from "@/utils/typography";
+import { FontAwesome6 } from "@expo/vector-icons";
 import React from "react";
-import { FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import CompassItem from "./CompassItem";
 
 export default function CompassList({ compasses }: { compasses: Compass[] }) {
 	if (compasses.length === 0)
-		return <Text style={fontStyles.regular}>No compasses</Text>;
+		return (
+			<View
+				style={{
+					flexDirection: "row",
+					justifyContent: "flex-end",
+					alignItems: "flex-start",
+					gap: 15,
+					marginEnd: 20,
+				}}
+			>
+				<Text
+					style={{
+						...fontStyles.header,
+						color: "white",
+						fontSize: 30,
+					}}
+				>
+					Start your Compass
+				</Text>
+				<FontAwesome6 name="arrow-turn-up" size={30} color="white" />
+			</View>
+		);
 	return (
 		<SafeAreaView
 			style={{

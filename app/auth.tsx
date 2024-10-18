@@ -5,12 +5,13 @@ import { isValidEmail, isValidPassword } from "@/utils/helpers";
 import { fontStyles } from "@/utils/typography";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { useState } from "react";
 import { Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
 import { Button, Card } from "react-native-paper";
 
 export default function Authentication() {
-	const { userId } = useAuth();
+	const { userId, fUser } = useAuth();
 	const [isSigningIn, setIsSigningIn] = useState(true);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -53,10 +54,20 @@ export default function Authentication() {
 		if (!isFormValid()) return setLoading(false);
 
 		try {
-			if (isSigningIn) {
+			if (fUser) {
+				await reauthenticateWithCredential(
+					fUser,
+					EmailAuthProvider.credential(email, password)
+				);
+				return router.navigate({
+					pathname: "/settings",
+					params: { status: "AUTHENTICATED" },
+				});
+			} else if (isSigningIn) {
 				await signInUser(email, password);
 			} else {
 				if (!userId) {
+					setLoading(false);
 					return setErrors((prevErrors) => ({
 						...prevErrors,
 						error: "User status invalid. Please contact customer support.",
@@ -65,14 +76,16 @@ export default function Authentication() {
 				await signUpUser(userId, email, password);
 				await signInUser(email, password);
 			}
+			setLoading(false);
+			router.back();
 		} catch (error) {
 			setErrors((prevErrors) => ({
 				...prevErrors,
 				error: (error as string) ?? "Form error",
 			}));
+			setLoading(false);
+			return;
 		}
-		setLoading(false);
-		router.back();
 	}
 
 	return (
@@ -204,16 +217,18 @@ export default function Authentication() {
 							? "Don't have an account yet?"
 							: "Already have an account?"}
 					</Text>
-					<Button onPress={() => setIsSigningIn((prev) => !prev)}>
-						<Text
-							style={{
-								color: Colors.primary,
-								...fontStyles.regularBold,
-							}}
-						>
-							{isSigningIn ? "Sign Up" : "Sign In"}
-						</Text>
-					</Button>
+					{!fUser && (
+						<Button onPress={() => setIsSigningIn((prev) => !prev)}>
+							<Text
+								style={{
+									color: Colors.primary,
+									...fontStyles.regularBold,
+								}}
+							>
+								{isSigningIn ? "Sign Up" : "Sign In"}
+							</Text>
+						</Button>
+					)}
 				</View>
 			</View>
 		</View>

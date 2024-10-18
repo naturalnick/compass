@@ -170,6 +170,7 @@ export default function Compass() {
 						description="Ensure your Compass truly reflects your values and goals by asking yourself these critical questions."
 						icon={<AntDesign name="eye" size={26} color="orange" />}
 					/>
+					<View style={{ height: 200 }}></View>
 				</ScrollView>
 			)}
 		</View>

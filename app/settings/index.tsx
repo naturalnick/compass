@@ -1,9 +1,17 @@
+import Loading from "@/components/Loading";
 import { useAuth } from "@/hooks/useAuth";
 import { signOutUser } from "@/services/auth";
+import { deleteUserAccount } from "@/services/user";
 import Colors from "@/utils/colors";
 import { fontStyles } from "@/utils/typography";
-import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
-import { Link, router } from "expo-router";
+import {
+	Feather,
+	FontAwesome,
+	Ionicons,
+	MaterialIcons,
+} from "@expo/vector-icons";
+import { Link, router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
 	Alert,
 	Pressable,
@@ -15,7 +23,29 @@ import {
 import { Card } from "react-native-paper";
 
 export default function AppSettings() {
-	const { fUser } = useAuth();
+	const { fUser, userId } = useAuth();
+	const [hasReauthenticated, setHasReauthenticated] = useState(false);
+	const [deleting, setDeleting] = useState(false);
+	const params = useLocalSearchParams();
+
+	useEffect(() => {
+		if (params?.status === "AUTHENTICATED") {
+			setHasReauthenticated(true);
+		}
+	}, [params]);
+
+	async function handleDeleteAccount() {
+		if (!hasReauthenticated) {
+			router.navigate("/auth");
+			return;
+		}
+
+		setDeleting(true);
+
+		if (userId && fUser) await deleteUserAccount(fUser, userId);
+		setDeleting(false);
+		router.dismissAll();
+	}
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -28,7 +58,7 @@ export default function AppSettings() {
 						padding: 15,
 					}}
 				>
-					<Pressable onPress={() => router.back()}>
+					<Pressable onPress={() => router.dismissAll()}>
 						<Ionicons name="arrow-back" size={30} color="#FFCC01" />
 					</Pressable>
 					<Text
@@ -51,7 +81,7 @@ export default function AppSettings() {
 				>
 					Account
 				</Text>
-				{!fUser ? (
+				{!fUser && (
 					<Link href="/auth" asChild>
 						<Pressable>
 							<Card
@@ -91,62 +121,29 @@ export default function AppSettings() {
 							</Card>
 						</Pressable>
 					</Link>
-				) : (
-					<View>
-						<View
+				)}
+				{!!fUser && (
+					<View
+						style={{
+							flexDirection: "row",
+							alignItems: "center",
+							padding: 10,
+							gap: 15,
+						}}
+					>
+						<FontAwesome
+							name="user-circle"
+							size={30}
+							color={Colors.primary}
+						/>
+						<Text
 							style={{
-								flexDirection: "row",
-								alignItems: "center",
-								padding: 10,
-								gap: 15,
+								color: "white",
+								...fontStyles.regular,
 							}}
 						>
-							<FontAwesome
-								name="user-circle"
-								size={30}
-								color={Colors.primary}
-							/>
-							<Text
-								style={{
-									color: "white",
-									...fontStyles.regular,
-								}}
-							>
-								{fUser.email}
-							</Text>
-						</View>
-						<Pressable onPress={() => signOutUser()}>
-							<Card
-								style={{
-									padding: 15,
-									marginBottom: 15,
-								}}
-							>
-								<View
-									style={{
-										flexDirection: "row",
-										justifyContent: "space-between",
-										alignItems: "center",
-									}}
-								>
-									<View
-										style={{
-											flexDirection: "row",
-											gap: 10,
-										}}
-									>
-										<Text style={fontStyles.regular}>
-											Sign Out
-										</Text>
-									</View>
-									<Ionicons
-										name="exit-outline"
-										size={24}
-										color="black"
-									/>
-								</View>
-							</Card>
-						</Pressable>
+							{fUser.email}
+						</Text>
 					</View>
 				)}
 				<Pressable
@@ -218,6 +215,98 @@ export default function AppSettings() {
 						</View>
 					</Card>
 				</Pressable>
+				{!!fUser && (
+					<View>
+						<Pressable
+							onPress={() =>
+								Alert.alert(
+									"Delete Account",
+									"Confirm that you want to delete your account and it's data. This action cannot be undone.",
+									[
+										{
+											text: "Delete",
+											onPress: handleDeleteAccount,
+											isPreferred: true,
+											style: "destructive",
+										},
+										{
+											text: "Cancel",
+											style: "cancel",
+										},
+									]
+								)
+							}
+							disabled={deleting}
+						>
+							<Card
+								style={{
+									padding: 15,
+									marginBottom: 15,
+								}}
+							>
+								<View
+									style={{
+										flexDirection: "row",
+										justifyContent: "space-between",
+										alignItems: "center",
+									}}
+								>
+									<Text
+										style={{
+											...fontStyles.regular,
+											flexGrow: 1,
+										}}
+									>
+										Delete Account
+									</Text>
+									{deleting && (
+										<Loading mode="dark" size="small" />
+									)}
+									<MaterialIcons
+										name="delete-forever"
+										size={24}
+										color="red"
+									/>
+								</View>
+							</Card>
+						</Pressable>
+						<Pressable
+							onPress={() => signOutUser()}
+							disabled={deleting}
+						>
+							<Card
+								style={{
+									padding: 15,
+									marginBottom: 15,
+								}}
+							>
+								<View
+									style={{
+										flexDirection: "row",
+										justifyContent: "space-between",
+										alignItems: "center",
+									}}
+								>
+									<View
+										style={{
+											flexDirection: "row",
+											gap: 10,
+										}}
+									>
+										<Text style={fontStyles.regular}>
+											Sign Out
+										</Text>
+									</View>
+									<Ionicons
+										name="exit-outline"
+										size={24}
+										color="black"
+									/>
+								</View>
+							</Card>
+						</Pressable>
+					</View>
+				)}
 			</ScrollView>
 		</View>
 	);

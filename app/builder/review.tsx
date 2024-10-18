@@ -55,34 +55,43 @@ export default function Review() {
 						will evolve as you learn more about yourself and the way
 						you want to live.
 					</Text>
-				</Card>
-
-				{reviewQuestions.map((text, index) => (
-					<View key={text}>
-						<Text
+					<View
+						style={{
+							height: 1,
+							backgroundColor: "gray",
+							opacity: 0.5,
+							marginVertical: 20,
+						}}
+					></View>
+					{reviewQuestions.map((text) => (
+						<View
+							key={text}
 							style={{
-								paddingVertical: 10,
-								color: "white",
-								...fontStyles.regular,
-								marginBottom:
-									index === reviewQuestions.length - 1
-										? 100
-										: 0,
-								textAlign: "center",
+								flexDirection: "row",
+								alignItems: "center",
+								gap: 10,
+								marginBottom: 15,
 							}}
 						>
-							{text}
-						</Text>
-						{index < reviewQuestions.length - 1 && (
 							<MaterialCommunityIcons
 								name="star-four-points"
 								size={24}
 								color={Colors.primary}
 								style={{ textAlign: "center" }}
 							/>
-						)}
-					</View>
-				))}
+							<Text
+								style={{
+									paddingVertical: 10,
+									...fontStyles.regular,
+									flexGrow: 1,
+									flexShrink: 1,
+								}}
+							>
+								{text}
+							</Text>
+						</View>
+					))}
+				</Card>
 			</ScrollView>
 		</View>
 	);

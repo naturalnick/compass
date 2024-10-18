@@ -14,7 +14,7 @@ export default function NewCompassModal() {
 	const compasses = useCompasses(userId);
 
 	function handleAddCompass(compassType: CompassType) {
-		if (userId && compasses && compasses?.length < 0) {
+		if (userId && compasses && compasses?.length < 10) {
 			addCompass(userId, compassType);
 		} else {
 			Alert.alert(

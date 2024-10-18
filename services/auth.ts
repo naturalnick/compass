@@ -41,9 +41,13 @@ export async function signUpUser(
 ) {
 	try {
 		const auth = getAuth();
-		await createUserWithEmailAndPassword(auth, email, password);
+		const userCredential = await createUserWithEmailAndPassword(
+			auth,
+			email,
+			password
+		);
 
-		const newUser = new User(userId, email);
+		const newUser = new User(userId, userCredential.user.uid, email);
 		await addUser(newUser);
 	} catch (error) {
 		console.error(error);
