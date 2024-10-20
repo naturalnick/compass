@@ -2,7 +2,6 @@ import { signInUser, signUpUser } from "@/src/services/auth";
 import { isValidEmail, isValidPassword } from "@/src/utils/helpers";
 import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
-import { Button, Card } from "react-native-paper";
 
 import { useAuth } from "@/src/hooks/useAuth";
 import Colors from "@/src/utils/colors";
@@ -10,6 +9,7 @@ import { fontStyles } from "@/src/utils/typography";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
+import { Button } from "react-native-paper";
 
 export default function Authentication() {
 	const { userId, fUser } = useAuth();
@@ -101,7 +101,11 @@ export default function Authentication() {
 					}}
 				>
 					<Pressable onPress={() => router.back()}>
-						<Ionicons name="arrow-back" size={30} color="#FFCC01" />
+						<Ionicons
+							name="arrow-back"
+							size={30}
+							color={Colors.primary}
+						/>
 					</Pressable>
 					<Text
 						style={{

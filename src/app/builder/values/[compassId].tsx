@@ -18,16 +18,19 @@ import { Card, Snackbar } from "react-native-paper";
 
 import CoreValueItem from "@/src/components/CoreValueItem";
 import { coreValues } from "@/src/constants/coreValues";
+import { personalPrompts } from "@/src/constants/prompts";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
 import Colors from "@/src/utils/colors";
 import { isValidLettersOnly } from "@/src/utils/helpers";
 import { fontStyles } from "@/src/utils/typography";
 
 export default function ValuesPicker() {
-	const searchParams = useLocalSearchParams();
-	if (!searchParams?.compassId) return null;
+	const { builder, compassId } = useLocalSearchParams<{
+		builder: string;
+		compassId: string;
+	}>();
 
-	const compass = useCompass(searchParams.compassId as string);
+	const compass = useCompass(compassId);
 
 	if (compass === null) return router.dismissAll();
 
@@ -127,55 +130,76 @@ export default function ValuesPicker() {
 					style={{
 						flexDirection: "row",
 						alignItems: "flex-start",
-						gap: 20,
-						padding: 15,
+						justifyContent: "space-between",
+						padding: 10,
 					}}
 				>
 					<Pressable onPress={handleSave}>
-						<Ionicons name="arrow-back" size={30} color="#FFCC01" />
+						<Ionicons
+							name="arrow-back"
+							size={30}
+							color={Colors.primary}
+						/>
 					</Pressable>
+					{builder && (
+						<Pressable
+							onPress={() => {
+								handleSave();
+								router.navigate({
+									pathname: `/builder/prompts/${compassId}/${personalPrompts[0].id}`,
+									params: builder ? { builder } : {},
+								});
+							}}
+						>
+							<Ionicons
+								name="arrow-forward-circle"
+								size={40}
+								color={Colors.primary}
+							/>
+						</Pressable>
+					)}
+				</View>
+			</SafeAreaView>
+			<ScrollView style={{ paddingHorizontal: 15 }}>
+				<View
+					style={{
+						gap: 5,
+						flexGrow: 1,
+						flexShrink: 1,
+					}}
+				>
+					<Text
+						style={{
+							...fontStyles.header,
+							color: "white",
+						}}
+					>
+						What are your core values?
+					</Text>
 					<View
 						style={{
-							gap: 5,
-							flexGrow: 1,
-							flexShrink: 1,
+							flexDirection: "row",
+							justifyContent: "space-between",
 						}}
 					>
 						<Text
 							style={{
-								...fontStyles.regularBold,
+								...fontStyles.regular,
 								color: "white",
 							}}
 						>
-							What are your core values?
+							Choose your top 10
 						</Text>
-						<View
+						<Text
 							style={{
-								flexDirection: "row",
-								justifyContent: "space-between",
+								...fontStyles.regular,
+								color: "white",
 							}}
 						>
-							<Text
-								style={{
-									...fontStyles.regular,
-									color: "white",
-								}}
-							>
-								Choose your top 10
-							</Text>
-							<Text
-								style={{
-									...fontStyles.regular,
-									color: "white",
-								}}
-							>
-								{`${selectedValues.length} selected`}
-							</Text>
-						</View>
+							{`${selectedValues.length} selected`}
+						</Text>
 					</View>
 				</View>
-			</SafeAreaView>
-			<ScrollView style={{ padding: 15 }}>
 				{coreValues.map((section) => (
 					<View
 						key={section.section + selectedValues.length.toString()}

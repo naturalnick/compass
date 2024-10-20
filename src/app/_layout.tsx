@@ -37,6 +37,12 @@ export default function RootLayout() {
 						presentation: "modal",
 					}}
 				/>
+				<Stack.Screen
+					name="settings"
+					options={{
+						animation: "slide_from_left",
+					}}
+				/>
 			</Stack>
 		</AuthProvider>
 	);

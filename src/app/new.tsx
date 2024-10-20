@@ -14,29 +14,31 @@ export default function NewCompassModal() {
 	const { userId } = useAuth();
 	const compasses = useCompasses(userId);
 
-	function handleAddCompass(compassType: CompassType) {
-		if (userId && compasses && compasses?.length < 10) {
-			addCompass(userId, compassType);
-		} else {
-			Alert.alert(
-				"1 Compass Limit",
-				"You've hit the max number of Compasses (1) for this device.\n\nUpgrade to add more Compasses.",
-				[
-					{
-						text: "Upgrade",
-						onPress: () => console.log("Upgrade pressed"),
-						isPreferred: true,
-					},
-					{
-						text: "Cancel",
-						onPress: () => console.log("Cancel Pressed"),
-						style: "cancel",
-					},
-				]
-			);
+	async function handleAddCompass(compassType: CompassType) {
+		try {
+			if (!userId || compasses === undefined) return;
+			const compassId = await addCompass(userId, compassType);
+			router.back();
+			router.navigate(`/compass/${compassId}`);
+		} catch (error) {
+			console.log(error);
+			// Alert.alert(
+			// 	"1 Compass Limit",
+			// 	"You've hit the max number of Compasses (1) for this device.\n\nUpgrade to add more Compasses.",
+			// 	[
+			// 		{
+			// 			text: "Upgrade",
+			// 			onPress: () => console.log("Upgrade pressed"),
+			// 			isPreferred: true,
+			// 		},
+			// 		{
+			// 			text: "Cancel",
+			// 			onPress: () => console.log("Cancel Pressed"),
+			// 			style: "cancel",
+			// 		},
+			// 	]
+			// );
 		}
-
-		router.back();
 	}
 	return (
 		<View style={{ flex: 1 }}>

@@ -21,7 +21,11 @@ export default function Review() {
 					}}
 				>
 					<Pressable onPress={() => router.back()}>
-						<Ionicons name="arrow-back" size={30} color="#FFCC01" />
+						<Ionicons
+							name="arrow-back"
+							size={30}
+							color={Colors.primary}
+						/>
 					</Pressable>
 					<Text
 						style={{

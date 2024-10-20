@@ -8,7 +8,7 @@ import { Card } from "react-native-paper";
 type Props = {
 	route: string;
 	title: string;
-	description: string;
+	description?: string;
 	icon: React.ReactNode;
 };
 
@@ -49,14 +49,16 @@ export default function BuilderItem({
 							>
 								{title}
 							</Text>
-							<Text
-								style={{
-									...fontStyles.regular,
-									color: "gray",
-								}}
-							>
-								{description}
-							</Text>
+							{description && (
+								<Text
+									style={{
+										...fontStyles.regular,
+										color: "gray",
+									}}
+								>
+									{description}
+								</Text>
+							)}
 						</View>
 					</View>
 				</Card>

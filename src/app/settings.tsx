@@ -60,7 +60,11 @@ export default function AppSettings() {
 					}}
 				>
 					<Pressable onPress={() => router.dismissAll()}>
-						<Ionicons name="arrow-back" size={30} color="#FFCC01" />
+						<Ionicons
+							name="arrow-back"
+							size={30}
+							color={Colors.primary}
+						/>
 					</Pressable>
 					<Text
 						style={{

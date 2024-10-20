@@ -11,6 +11,6 @@ export const fontStyles = StyleSheet.create({
 	},
 	regularBold: {
 		fontFamily: "Lora_600SemiBold",
-		fontSize: 18,
+		fontSize: 17,
 	},
 });

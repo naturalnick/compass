@@ -10,6 +10,10 @@ export default function Layout() {
 			}}
 		>
 			<Stack.Screen
+				name="index"
+				options={{ animation: "slide_from_right" }}
+			/>
+			<Stack.Screen
 				name="tipModal"
 				options={{
 					presentation: "modal",

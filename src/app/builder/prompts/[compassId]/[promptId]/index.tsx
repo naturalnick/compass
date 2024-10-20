@@ -1,6 +1,6 @@
 import { updatePrompt, usePrompt } from "@/src/services/prompts";
 import { Entypo, Ionicons } from "@expo/vector-icons";
-import { Link, router, useLocalSearchParams } from "expo-router";
+import { Link, router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import {
 	Keyboard,
@@ -19,11 +19,15 @@ import Colors from "@/src/utils/colors";
 import { fontStyles } from "@/src/utils/typography";
 
 export default function PromptEditor() {
-	const { compassId, promptId } = useLocalSearchParams();
+	const { compassId, promptId, builder } = useLocalSearchParams<{
+		compassId: string;
+		promptId: string;
+		builder: string;
+	}>();
 
 	const prompt = personalPrompts.find((prompt) => prompt.id === promptId);
-	const savedPrompt = usePrompt(compassId as string, promptId as string);
-
+	const savedPrompt = usePrompt(compassId!, promptId!);
+	const nav = useNavigation();
 	const [response, setResponse] = useState<string | undefined>();
 
 	useEffect(() => {
@@ -33,22 +37,55 @@ export default function PromptEditor() {
 
 	if (!prompt) return router.back();
 
-	function handleSavePrompt() {
+	function savePrompt() {
 		if (!prompt || !compassId) return;
 
 		const hasChanged =
 			response !== undefined &&
 			(savedPrompt?.response ?? "") !== response;
 		if (hasChanged) {
-			updatePrompt(
-				compassId as string,
-				prompt.id,
-				prompt.prompt,
-				response
-			);
+			updatePrompt(compassId, prompt.id, prompt.prompt, response);
 		}
-		router.back();
 	}
+
+	function handlePromptNavigation(direction: "back" | "next") {
+		savePrompt();
+
+		if (direction === "back") {
+			if (
+				builder &&
+				personalPrompts.findIndex(
+					(prompt) => prompt.id === promptId
+				) === 0
+			) {
+				router.replace({
+					pathname: `/builder/values/${compassId}`,
+					params: builder ? { builder } : {},
+				});
+			} else {
+				router.back();
+			}
+		} else {
+			const nextPromptIndex =
+				personalPrompts.findIndex((prompt) => prompt.id === promptId) +
+				1;
+
+			if (nextPromptIndex > personalPrompts.length - 1) {
+				router.push({
+					pathname: `/compass/${compassId}/edit`,
+					params: builder ? { builder } : {},
+				});
+			} else {
+				const nextPromptId = personalPrompts[nextPromptIndex].id;
+
+				router.push({
+					pathname: `/builder/prompts/${compassId}/${nextPromptId}`,
+					params: builder ? { builder } : {},
+				});
+			}
+		}
+	}
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<KeyboardAvoidingView
@@ -59,17 +96,37 @@ export default function PromptEditor() {
 					style={{
 						flexDirection: "row",
 						alignItems: "center",
-						gap: 20,
+						justifyContent: "space-between",
 						padding: 15,
 					}}
 				>
-					<Pressable onPress={handleSavePrompt}>
-						<Ionicons name="arrow-back" size={30} color="#FFCC01" />
+					<Pressable onPress={() => handlePromptNavigation("back")}>
+						<Ionicons
+							name="arrow-back"
+							size={30}
+							color={Colors.primary}
+						/>
 					</Pressable>
-					<Pressable
-						onPress={Keyboard.dismiss}
-						style={{ gap: 5, flexShrink: 1, flexGrow: 1 }}
-					>
+					{builder && (
+						<Pressable
+							onPress={() => handlePromptNavigation("next")}
+						>
+							<Ionicons
+								name="arrow-forward-circle"
+								size={40}
+								color={Colors.primary}
+							/>
+						</Pressable>
+					)}
+				</View>
+				<View
+					style={{
+						flexDirection: "row",
+						justifyContent: "space-between",
+						paddingHorizontal: 20,
+					}}
+				>
+					<Pressable onPress={Keyboard.dismiss} style={{ gap: 5 }}>
 						<Text
 							style={{
 								...fontStyles.regularBold,
@@ -87,8 +144,8 @@ export default function PromptEditor() {
 							{({ pressed }) => (
 								<Entypo
 									name="help-with-circle"
-									size={30}
-									color={pressed ? "white" : Colors.primary}
+									size={26}
+									color={pressed ? "darkgray" : "white"}
 								/>
 							)}
 						</Pressable>

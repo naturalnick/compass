@@ -3,11 +3,14 @@ import {
 	Timestamp,
 	addDoc,
 	collection,
+	deleteDoc,
 	doc,
+	getDocs,
 	onSnapshot,
 	query,
 	setDoc,
 	where,
+	writeBatch,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
@@ -15,9 +18,9 @@ import {
 	familyPrompts,
 	personalPrompts,
 } from "../constants/prompts";
+import { compassConverter, promptConverter } from "./converter";
 
 import { db } from "../../firebaseConfig";
-import { compassConverter } from "./converter";
 
 export async function addCompass(userId: string, type: CompassType) {
 	const newDoc = await addDoc(
@@ -116,6 +119,27 @@ export async function updateStatement(compassId: string, statement: string) {
 		},
 		{ merge: true }
 	);
+}
+
+export async function deleteCompass(compassId: string) {
+	const batch = writeBatch(db);
+	const compassRef = doc(db, "compasses", compassId).withConverter(
+		compassConverter
+	);
+
+	batch.delete(compassRef);
+
+	const promptsQuery = query(
+		collection(db, "compasses").withConverter(compassConverter),
+		where("compassId", "==", compassId)
+	).withConverter(promptConverter);
+
+	const promptsSnapshot = await getDocs(promptsQuery);
+	promptsSnapshot.forEach((doc) => {
+		batch.delete(doc.ref);
+	});
+
+	return batch.commit();
 }
 
 export async function updateCoreValues(compassId: string, values: string[]) {

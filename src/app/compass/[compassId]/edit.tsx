@@ -38,7 +38,7 @@ export default function CompassEditor() {
 		if (hasChanged) {
 			updateStatement(compassId as string, statement);
 		}
-		router.back();
+		router.navigate(`/compass/${compassId}`);
 	}
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
