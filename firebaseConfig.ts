@@ -1,17 +1,17 @@
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
-import { initializeApp } from "firebase/app";
 import { getReactNativePersistence, initializeAuth } from "firebase/auth";
 
+import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-	apiKey: "AIzaSyBKcMhIzT2s-EAclaSyjMQ3fhBy6IXUlCM",
-	authDomain: "icompass-75fb6.firebaseapp.com",
-	projectId: "icompass-75fb6",
-	storageBucket: "icompass-75fb6.appspot.com",
-	messagingSenderId: "981049273251",
-	appId: "1:981049273251:web:0c0b46b11f7d691c748816",
-	measurementId: "G-M2VQ6NJWBS",
+	apiKey: process.env.EXPO_PUBLIC_API_KEY,
+	authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
+	projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+	storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
+	messagingSenderId: process.env.EXPO_PUBLIC_MESSANGING_SENDER_ID,
+	appId: process.env.EXPO_PUBLIC_APP_ID,
+	measurementId: process.env.EXPO_PUBLIC_MEASURMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);

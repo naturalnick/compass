@@ -11,6 +11,7 @@ import { useCompasses } from "../services/compass";
 export default function Index() {
 	const { userId } = useAuth();
 	const compasses = useCompasses(userId);
+
 	return (
 		<View
 			style={{
