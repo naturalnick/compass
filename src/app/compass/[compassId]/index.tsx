@@ -175,7 +175,7 @@ export default function Compass() {
 					<BuilderItem
 						route={`/builder/values/${compassId}`}
 						title="Core Values"
-						description="Identify your core values and "
+						description="Identify your core values"
 						icon={
 							<FontAwesome name="heart" size={26} color="red" />
 						}
